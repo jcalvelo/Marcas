@@ -40,7 +40,7 @@ namespace MarcasServidor
                 {
                     file.WriteLine(now.ToShortDateString() + ";" + now.ToShortTimeString() + ";" + user + ";" + login_computer + ";" + "CIERRE");
                 }
-            }
+            } 
             else
             {
                 String line = now.ToShortDateString() + ";" + now.ToShortTimeString() + ";" + user + ";" + login_computer + ";" + "CIERRE" + Environment.NewLine;
