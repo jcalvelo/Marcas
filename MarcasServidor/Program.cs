@@ -5,26 +5,25 @@ using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MarcasServidor
-{
-    class Program
-    {
+[assembly: log4net.Config.XmlConfigurator(Watch = true)]
+
+namespace MarcasServidor {
+    class Program {
+
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger("Program.cs");
+
         public static IMarcas blHandler;
-        static void Main(string[] args)
-        {
+        static void Main(string[] args) {
             SetupDependencies();
             SetupService();
         }
 
-        private static void SetupDependencies()
-        {
+        private static void SetupDependencies() {
             blHandler = new Marcas();
         }
 
-        private static void SetupService()
-        {
-            try
-            {
+        private static void SetupService() {
+            try {
                 ServiceHost selfHost = new ServiceHost(typeof(Marcas));
                 selfHost.Open();
                 Console.WriteLine("El servicio está listo");
@@ -33,10 +32,8 @@ namespace MarcasServidor
                 Console.ReadLine();
 
                 selfHost.Close();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error: {0}", e);
+            } catch (Exception e) {
+                log.Error(e);
                 throw;
             }
         }
