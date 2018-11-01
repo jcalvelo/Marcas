@@ -14,8 +14,14 @@ namespace MarcasServidor {
 
         public static IMarcas blHandler;
         static void Main(string[] args) {
-            SetupDependencies();
-            SetupService();
+            try {
+                SetupDependencies();
+                SetupService();
+
+            } catch (Exception e) {
+                log.Error(e);
+
+            }
         }
 
         private static void SetupDependencies() {
@@ -23,19 +29,14 @@ namespace MarcasServidor {
         }
 
         private static void SetupService() {
-            try {
-                ServiceHost selfHost = new ServiceHost(typeof(Marcas));
-                selfHost.Open();
-                Console.WriteLine("El servicio está listo");
-                Console.WriteLine("Presiones Enter para terminar el servicio");
-                Console.WriteLine();
-                Console.ReadLine();
+            ServiceHost selfHost = new ServiceHost(typeof(Marcas));
+            selfHost.Open();
+            Console.WriteLine("El servicio está listo");
+            Console.WriteLine("Presiones Enter para terminar el servicio");
+            Console.WriteLine();
+            Console.ReadLine();
 
-                selfHost.Close();
-            } catch (Exception e) {
-                log.Error(e);
-                throw;
-            }
+            selfHost.Close();
         }
     }
 }
