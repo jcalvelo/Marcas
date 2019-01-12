@@ -10,6 +10,11 @@ namespace MarcasServidor
 {
     public class Marcas : IMarcas
     {
+        
+        public void Start() {
+
+        }
+
         public void MarcaEntrada(String user, String login_computer)
         {
             DateTime now = DateTime.Now;

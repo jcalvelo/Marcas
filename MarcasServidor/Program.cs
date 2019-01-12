@@ -4,41 +4,30 @@ using System.Linq;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
+using Topshelf;
 
-namespace MarcasServidor
-{
-    class Program
-    {
+namespace MarcasServidor {
+    class Program {
         public static IMarcas blHandler;
-        static void Main(string[] args)
-        {
-            SetupDependencies();
-            SetupService();
-        }
+        static void Main(string[] args) {
 
-        private static void SetupDependencies()
-        {
-            blHandler = new Marcas();
-        }
+            var exitCode = HostFactory.Run(x => {
+                x.Service<Service>(s => {
+                    s.ConstructUsing(marcasService => new Service());
+                    s.WhenStarted(marcasService => marcasService.Start());
+                    s.WhenStopped(marcasService => marcasService.Stop());
+                });
 
-        private static void SetupService()
-        {
-            try
-            {
-                ServiceHost selfHost = new ServiceHost(typeof(Marcas));
-                selfHost.Open();
-                Console.WriteLine("El servicio está listo");
-                Console.WriteLine("Presiones Enter para terminar el servicio");
-                Console.WriteLine();
-                Console.ReadLine();
+                x.RunAsLocalSystem();
 
-                selfHost.Close();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error: {0}", e);
-                throw;
-            }
+                x.SetServiceName("MarcasPresentismo");
+                x.SetDisplayName("Marcas de Presentismo");
+                x.SetDescription("Servicio de marcas generado por José Calvelo - SSI Ltda.");
+            });
+
+            int exitCodeValue = (int)Convert.ChangeType(exitCode, exitCode.GetTypeCode());
+            Environment.ExitCode = exitCodeValue;
+
         }
     }
 }
