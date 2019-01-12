@@ -6,8 +6,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Topshelf;
 
+[assembly: log4net.Config.XmlConfigurator(Watch = true)]
+
 namespace MarcasServidor {
     class Program {
+
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger("Program.cs");
+
         public static IMarcas blHandler;
         static void Main(string[] args) {
 
